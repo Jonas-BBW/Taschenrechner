@@ -1,6 +1,6 @@
 ﻿namespace Taschenrechner
 {
-    partial class frm_Nebenrechner
+    partial class frm_Taschenrechner
     {
         /// <summary>
         /// Erforderliche Designervariable.
@@ -369,7 +369,7 @@
             this.btn_c.UseVisualStyleBackColor = false;
             this.btn_c.Click += new System.EventHandler(this.btn_c_Click);
             // 
-            // frm_Nebenrechner
+            // frm_Taschenrechner
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -399,9 +399,9 @@
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.MaximizeBox = false;
             this.MinimizeBox = false;
-            this.Name = "frm_Nebenrechner";
+            this.Name = "frm_Taschenrechner";
             this.ShowIcon = false;
-            this.Text = "Nebenrechner";
+            this.Text = "Taschenrechner";
             this.ResumeLayout(false);
             this.PerformLayout();
 

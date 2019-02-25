@@ -4,12 +4,12 @@ using System.Windows.Forms;
 
 namespace Taschenrechner
 {
-    public partial class frm_Nebenrechner : Form
+    public partial class frm_Taschenrechner : Form
     {
         string eingabe = "";
         string ergebnis = "";
 
-        public frm_Nebenrechner()
+        public frm_Taschenrechner()
         {
             InitializeComponent();
         }
