@@ -21,15 +21,19 @@ namespace Taschenrechner
                 if (tb_ergebnis.Text.Contains("=") && tb_ergebnis.Text.Length > 0)
                 {
                     if (tb_ergebnis.SelectionStart > tb_ergebnis.Text.IndexOf("=") && !tb_ergebnis.Text.Contains("E"))
+                    { 
                         eingabe = tb_ergebnis.Text.Replace(tb_ergebnis.Text.Substring(0, tb_ergebnis.Text.IndexOf("=") + 1), "");
-                    else
+                    }else
+                    { 
                         eingabe = tb_ergebnis.Text.Replace(tb_ergebnis.Text.Substring(tb_ergebnis.Text.IndexOf("=")), "");
+                    }
                 }
                 else
+                { 
                     eingabe = tb_ergebnis.Text;
-
+                }
                 Nebenrechner Ausrechner = new Nebenrechner();
-                
+
                 ergebnis = Ausrechner.ArbeiteAb(eingabe);
                 tb_ergebnis.Text = eingabe + "=" + ergebnis;
             }
@@ -54,19 +58,18 @@ namespace Taschenrechner
 
             if (e.KeyValue == Convert.ToChar(Keys.Delete))
             {
-                try
+                if (tb_ergebnis.TextLength >= 1)
                 {
                     int einfügezeichenPosition = tb_ergebnis.SelectionStart;
                     tb_ergebnis.Text = tb_ergebnis.Text.Remove(tb_ergebnis.SelectionStart, 1);
                     tb_ergebnis.SelectionStart = einfügezeichenPosition;
                 }
-                catch{}
             }
         }
 
         private void tb_ergebnis_KeyPress(object sender, KeyPressEventArgs e)
         {
-            string tastenDruck = e.KeyChar.ToString();
+            string tastenDruck = e.KeyChar.ToString();// never use a switch without break see here https://stackoverflow.com/questions/4649423/should-switch-statements-always-contain-a-default-clause
             switch (tastenDruck)
             {
                 case "0": btn_0.PerformClick(); break;
@@ -88,6 +91,7 @@ namespace Taschenrechner
                 case ")": btn_klammerZu.PerformClick(); break;
                 case "c": case "C": btn_c.PerformClick(); break;
                 case "=": btn_gleichheitszeichen.PerformClick(); break;
+                default: break;
             }
         }
 
@@ -197,13 +201,12 @@ namespace Taschenrechner
         private void btn_löschen_Click(object sender, EventArgs e)
         {
             int einfügezeichenPosition = tb_ergebnis.SelectionStart;
-            try
+            if (tb_ergebnis.TextLength >= 1) // u dont need a try catch if u make sure there will no error ;) 
             {
                 tb_ergebnis.Text = tb_ergebnis.Text.Remove(tb_ergebnis.SelectionStart - 1, 1);
                 tb_ergebnis.SelectionStart = einfügezeichenPosition - 1;
+                tb_ergebnis.Select();
             }
-            catch{}
-            tb_ergebnis.Select();
         }
 
         private void btn_klammerAuf_Click(object sender, EventArgs e)
@@ -233,7 +236,7 @@ namespace Taschenrechner
         }
 
         private void Überprüfe()
-        {          
+        {
             int tmp;
 
             switch (rechenString[0].ToString())
@@ -241,6 +244,7 @@ namespace Taschenrechner
                 case "+": rechenString = rechenString.Insert(0, "0"); break;
                 case "-": rechenString = rechenString.Insert(0, "0"); break;
                 case "(": rechenString = rechenString.Insert(0, "1"); break;
+                default: break;
             }
 
             for (int i = 0; i < rechenString.Length; i++)
@@ -260,14 +264,14 @@ namespace Taschenrechner
                     }
                 }
 
-                if (rechenString[i].ToString() == ")" && i <= rechenString.Length -2)
+                if (rechenString[i].ToString() == ")" && i <= rechenString.Length - 2)
                 {
                     if (int.TryParse(rechenString[i + 1].ToString(), out tmp))
-                        rechenString = rechenString.Insert(i+1, "*");
+                        rechenString = rechenString.Insert(i + 1, "*");
 
                     if (rechenString[i + 1].ToString() == "(")
                     {
-                        rechenString = rechenString.Insert(i+1, "*");
+                        rechenString = rechenString.Insert(i + 1, "*");
                     }
                 }
             }
@@ -303,11 +307,11 @@ namespace Taschenrechner
                         break;
                     }
 
-                    rechenString = rechenString.Insert(j, r);                    
+                    rechenString = rechenString.Insert(j, r);
                     klammerAuf = -1;
                     i = -1;
                 }
-                
+
             }
             rechenString = Rechnen(rechenString);
 
@@ -319,14 +323,14 @@ namespace Taschenrechner
 
         string Rechnen(string s)
         {
-            
+
             List<string> list = ErstelleListe(s);
 
             for (int i = 0; i < list.Count; i++)
             {
                 if (list[i] == "/")
                 {
-                    if (list [i+1] == "0")
+                    if (list[i + 1] == "0")
                     {
                         return "#DIV/0";
                     }
@@ -403,13 +407,14 @@ namespace Taschenrechner
                 case "+": s = s.Insert(0, "0"); break;
                 case "-": s = s.Insert(0, "0"); break;
                 case "(": s = s.Insert(0, "1"); break;
+                default: break;
             }
 
             for (int i = 0; i < s.Length; i++)
             {
                 if (s[i] == '+' && s[i + 1] == '+')
                 {
-                    s = s.Remove(i+1, 1);
+                    s = s.Remove(i + 1, 1);
 
                     i = 0;
                 }
@@ -454,8 +459,8 @@ namespace Taschenrechner
 
                 if (s[i] == '*' && s[i + 1] == '-')
                 {
-                    s = s.Remove(i+1, 1);
-                    s = s.Insert(i+1, "m");
+                    s = s.Remove(i + 1, 1);
+                    s = s.Insert(i + 1, "m");
 
                     i = 0;
                 }
